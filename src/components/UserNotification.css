@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+main {
+  padding: 80px;
+  background-size: cover;
+
+
+  margin: 25px;
+  padding: 0;
+  font-family: sans-serif;
+}
+.icon{
+  cursor: pointer;
+  margin-right:50px ;
+   line-height: 60px;
+}
+.icon span{
+  background: #f00;
+  padding: 7px;
+  border-radius: 50%;
+  color: #fff;
+  vertical-align: top;
+  margin-left: -25px;
+}
+
+.icon img{
+  display: inline-block;
+width: 10px;
+margin-top: 20px;
+
+ }
+ .icon:hover{
+  opacity: .7;
+
+ }
+ .logo{
+  flex: 1;
+  margin-right: 50px;
+  color: aquamarine;
+  font-size: 20px;
+  font-family: monospace;
+ }
+ .notifibox{
+  width: 300px;
+  position: absolute;
+  top: 63px;
+  right: 35px;
+ }
+
+.icon-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  color: #333333;
+  background: #dddddd;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+}
+.notifibox h2{
+  font-size: 14px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  color: #999;
+}
+.notifibox h2 span{
+  color:#f00
+}
+notifiitem{
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding: 15px 5px;
+  margin-bottom: 16px;
+  cursor: pointer;
+
+}
+.notifiitem:hover{
+  background-color: #eee;
+}
+ 
+.notifiitem img{
+  display: block;
+  width: 60px;
+  margin-right: 10px;
+  border-radius: 50%;
+
+}
+.notifiitem.text h4{
+  color: #777;
+  font-size: 16px;
+  margin-right:10px ;
+  
+}
+
+ 
+
+.icon-button__badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  background: red;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+/* *{
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+
+
+.heading {
+  position: relative;
+  /* position: fixed; */
+  top: 10px; /* Adjust this value to set the distance from the top of the page */
+  right: 10px; /* Adjust this value to set the distance from the right edge of the page */
+  z-index: 999; /* To ensure it appears above other content */
+  background-color: #b88a8a; /* Background color of the notification container */
+  padding: 8px; /* Adjust as needed */
+  border: 11px solid #ccc; /* Optional border styling */
+  border-radius: 5px; /* Optional border radius for rounded corners */
+  size: 5px;
+  width:350px;
+  
+}
+ 
+
+
+.notification-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 20px;
+  /* display: inline-block; */
+  width: 80px;
+    height: 80px;
+    border-radius: 500px;
+    cursor: pointer; 
+    background-color: rgb(92, 122, 187);
+}
+
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     height: 100vh; 
+    background: linear-gradient(to right,#cddbda,#136a8a);
+}
+/* .center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+} */
+ 
+
+/* .heading.badge{
+  background-color: green;
+  color: aliceblue;
+  padding: 10px;
+  border-radius: 15px;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size:30px;
+  
+
+} */
+/* .num{
+    position: absolute;
+    top: -2px;
+    right: 0;
+    background: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: antiquewhite;
+
+} */
+/* .notification input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance:none;
+
+} */
+/* .notification input::before{
+    content:'\f0f3';
+    position:absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    font-family: 'font Awesome 5 free';
+    font-weight: 700;
+    font-size: 1.8em;
+    color: black;
+} */
+/* ul li ul.dropdown li {
+  display: block;
+  }
+  ul li ul.dropdown{
+    width: 100%;
+    background: orange;
+    position: absolute;
+    z-index: 999;
+    display: none;
+  } */
+
+ 
+  
+   
+  
+  /* .notification-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+  } */
+  
+  /* .notifications-list {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 200px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  } */
+  
+  /* .notification-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  } */
+  
+  /* .notification-item:last-child {
+    border-bottom: none;
+  }
+   */
+
+
+
+
+
+
+ 

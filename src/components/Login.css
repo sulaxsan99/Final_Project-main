@@ -1,0 +1,81 @@
+
+
+
+
+.loginpage{
+  background-image: url(https://img.freepik.com/free-photo/decorated-hall-wedding-is-ready-celebration_8353-10236.jpg?w=1060&t=st=1698647034~exp=1698647634~hmac=042c4b40363a8a60569a9b657cd7ca1ad4095f3d62c77dfbca66ad9e1b39385e);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.login-form {
+  background-color: #f1f5f8;
+  border:5px solid #2196f3;
+  border-radius: 20px;
+  padding: 50px;
+  width: 400px; /* Adjust the width as needed */
+  margin: auto; /* Center the form horizontally */
+  margin-top: 0px; /* Adjust the top margin as needed */
+  background-color: white;
+  background-position:left;
+  margin-bottom: 0%; 
+  opacity: 0.9; 
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius:20px;
+  border: 1px solid #ccc;
+  margin-top: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
+  /* Add your styling for the input fields */
+}
+
+.login-button {
+  width: 100px;
+  padding: 10px;
+  /* margin-bottom: 10px; */
+  border-radius: 5px;
+  background-color: #2196f3;
+  color: #fff;
+  border: none; 
+  /* Add your styling for the login button */
+}
+
+.forgot-password {
+      margin-bottom: 20px;
+  /* Add your styling for the forgot password text */
+font-size: small  ;
+font-weight: 600;
+}
+
+.create-account-button {
+  /* border-radius: 5px; */
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  /* margin-bottom: 25px; */
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+
+  /* Add your styling for the create account button */
+}
+
+.create-account-button span{
+  color:  #2196f3;
+  cursor:pointer
+
+}

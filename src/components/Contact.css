@@ -1,0 +1,40 @@
+
+.container4 {
+    max-width:100%;
+    padding: 20px;
+    text-align: center;
+    border: 10px solid #00bcd4;
+    height:86vh ;
+    background:rgb(13, 14, 13) ;
+    color: white;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  .paragraph{
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .address, .contact-info {
+    border: 5px solid #00bcd4;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-left: 250px;
+    margin-right: 300px;
+    border-radius: 20px; 
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .address p, .contact-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  

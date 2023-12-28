@@ -1,0 +1,16 @@
+.bookings-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  
+  .calendar {
+    margin-top: 20px;
+  }
+  
