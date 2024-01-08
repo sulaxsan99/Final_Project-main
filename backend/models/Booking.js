@@ -2,23 +2,22 @@ const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
   date: {
-    type: Date,
+    type: String,
     required: true,
     // unique:true,
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',  // Reference to the User model
+    type:String,
+    // ref: 'User',  // Reference to the User model
     required: true
   },
   filename:{
     type:String,
   },
   image: {
-    type: Buffer,  // Binary data for the image
+    type: String,  // Binary data for the image
     contentType: String  // Mime type of the image
   }
-
 });
 
 // Check if the model is already compiled before compiling it

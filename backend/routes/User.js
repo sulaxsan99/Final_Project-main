@@ -9,6 +9,7 @@ const { decodeToken,
 const UserSchema = require('../models/User')
 const Booking = require('../models/Booking')
 const multer = require('multer'); // For handling file uploads
+const fs = require('fs');
 
 
 
@@ -122,48 +123,41 @@ router.post("/resetPassword", async (req, res) => {
 
 
 
-router.post("/bookDate", async (req, res) => {
+router.get("/bookDate", async (req, res) => {
   try {
-    console.log("date", req.body)
-    const { date } = req.body; // Assuming userEmail is included in the request
-    const isDateBooked = await Booking.findOne({ date });
-
+    const { date } = req.query; // Assuming userEmail is included in the request
+    const date1 = req.query.date
+    console.log(date1)
+    const isDateBooked = await Booking.findOne({ date: date1 });
+    console.log("date is ", isDateBooked)
     if (isDateBooked) {
       return res.status(400).json({ message: "Date is not Available, Select Another one " });
     } else {
       return res.status(200).json({ message: "Date is Available" });
     }
 
-    // const newBooking = new Booking({
-    //   date: date,
-    //   userEmail: userEmail, // Storing the user's email
-    // });
-
-
-    // await newBooking.save();
-    // return res.status(200).json("Date booked successfully");
   } catch (error) {
     console.error(error);
     return res.status(500).json("Internal server error");
   }
 });
 
-const storage = multer.memoryStorage(); // Store the file in memory as Buffer
-const upload = multer({ storage: storage, limits: { fileSize: 50 * 1024 * 1024 } });
+// const storage = multer.memoryStorage(); // Store the file in memory as Buffer
+// const upload = multer({ storage: storage, limits: { fileSize: 50 * 1024 * 1024 * 1024 } });
 
 //save date with hall design
-router.post("/saveDate",  async (req, res) => {
+router.post("/saveDate", async (req, res) => {
+  // console.log(req.body.image)
   try {
     const newBooking = new Booking({
-      date: Date.now(),
-      user: '655e0eed7d6a7d69302d86be', // Storing the user's email
+      date: req.body.bookingDate,
+      user: req.body.user, // Storing the user's email
       filename: req.body.imageName,
       image: req.body.image
     });
 
     await newBooking.save();
     res.status(200).json({ message: 'Booking created with image successfully' });
-
   } catch (error) {
     console.error(error);
     return res.status(500).json("Internal server error");
@@ -178,4 +172,31 @@ router.get('/images', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+router.get('/images/img/:id', async (req, res) => {
+  try {
+    console.log(req.params.id)
+    const images = await Booking.findOne({ user: req.params.id });
+    res.json(images.image);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.delete('/:id',async(req,res)=>{
+try {
+  const deleteBooking= await Booking.findById(req.params.id);
+  if(!deleteBooking) {
+      return res.status(200).json("Booking not found")
+  }
+
+  const dvis= await Booking.findByIdAndDelete(req.params.id)
+  res.status(200).json({ message:"Booking delete successfully", dvis});
+  
+} catch (error) {
+  res.status(400).json({ error: 'Booking not deleted ' });
+
+}
+})
 module.exports = router;
