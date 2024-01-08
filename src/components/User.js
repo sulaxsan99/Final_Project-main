@@ -13,25 +13,37 @@ import axios from 'axios';
 // ** Thuva ** //
 const User = ({ setIsLoggedIn }) => {
   const [bookingDate, setBookingDate] = useState(null);
-  const [available,setAvailable] = useState(true)
+  const [available, setAvailable] = useState(true)
+  const [message,setMessage]= useState("")
   const bookedDates = [new Date(2023, 10, 10), new Date(2023, 10, 15)]; // Sample booked dates
   console.log(localStorage.getItem('token'))
- const BookDate =()=>{
- }
 
-  const handleDateSelect =async (date) => {
+  const handleDateSelect = async (date) => {
     // Logic to check if the date is available for booking
     // If available, set the booking date
     // Otherwise, show a message indicating that the date is not available
     setBookingDate(date);
-    console.log(date)
-    const response =await axios.post('http://localhost:5001/v1/bookDate',{date})
-    console.log(response)
-    if (response.status===200){
-      setAvailable(false)
-
-    }
+    console.log(bookingDate)
+    CheckAvailable(date)
   };
+
+  const CheckAvailable = async (date) => {
+    try {
+      const response = await axios.get('http://localhost:5001/v1/bookDate',{ params: { date: date } })
+      console.log(response)
+      if (response.status === 200) {
+        setAvailable(true)
+        setMessage("Date is Available ")
+    
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setAvailable(false);
+        setMessage("Date is not Available Find a New Date");
+      }
+    }
+  }
+  console.log(bookingDate)
 
   //** Madhu **//
   const handleLogout = () => {
@@ -56,9 +68,9 @@ const User = ({ setIsLoggedIn }) => {
   return (
 
     <div>
-      
+
       <UserNavbar handleLogout={handleLogout} />
-      
+
       <div className="container">
         <div className="row">
           <div className="col-md-7">
@@ -89,29 +101,31 @@ const User = ({ setIsLoggedIn }) => {
               />
             </div>
             <div>
-            {
-              
-            }
+              {
+
+              }
               <p></p>
             </div>
 
-            {bookingDate && available===false ? (
-              <Link to="/layout" state={{}}>
-                <button className="btn btn-primary custom-button"  onClick={BookDate} >Try Design</button>
-              </Link>
-            ) : null}
-             {/* Add a link to handle the notification click event */}
-             
+            {bookingDate && available === true ? (
+            <button className="btn btn-primary custom-button" onClick={() => {
+              navigate('/layout', { state: { bookingDate } });
+            }
+
+            } >Try Design</button>
+            ) : <h1 className='AvailableDate'> {message}</h1>}
+            {/* Add a link to handle the notification click event */}
+
           </div>
 
         </div>
-        
+
       </div>
-      
+
 
     </div>
 
-   
+
   );
 };
 

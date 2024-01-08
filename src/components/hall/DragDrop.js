@@ -15,6 +15,8 @@ import hall from '../images/hall.png'
 import UserNavbar2 from "../UserNavbar";
 import "../../App.css"
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const PictureList = [
   {
@@ -43,8 +45,8 @@ function DragDrop() {
   const [board, setBoard] = useState([]);
   const canvasRef = useRef(null);
   const [positions, setPositions] = useState({});
-  const user= localStorage.getItem('email');
-  console.log(user) 
+  const user = localStorage.getItem('email');
+  console.log(user)
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "image",
     drop: (item) => addImageToBoard(item.id),
@@ -52,7 +54,9 @@ function DragDrop() {
       isOver: !!monitor.isOver(),
     }),
   }));
-
+  const location = useLocation();
+  const bookingDate = location.state && location.state.bookingDate;
+  console.log(bookingDate)
   const addImageToBoard = (id) => {
     const pictureList = PictureList.filter((picture) => id === picture.id);
     setBoard((board) => [...board, pictureList[0]]);
@@ -94,18 +98,29 @@ function DragDrop() {
   const downloadImage = () => {
     const canvas = canvasRef.current;
     const dataUrl = canvas.toDataURL(); // Get the data URL of the canvas
+    console.log(dataUrl)
     const link = document.createElement("a");
     link.href = dataUrl;
     const imageName = `merged_image.png`; // Customize the filename
     link.download = imageName; // You can customize the filename
     link.click();
-    uploadImage(dataUrl,imageName)
+    uploadImage(dataUrl, imageName)
   };
-const uploadImage= async(dataUrl,imageName)=>{
-  console.log(dataUrl)
-  const response = await axios.post('http://localhost:5001/v1/saveDate',{image:dataUrl,imageName:imageName,user:user})
-  console.log(response);
-}
+
+  const uploadImage = async (dataUrl, imageName) => {
+    try {
+      console.log(dataUrl)
+      const response = await axios.post('http://localhost:5001/v1/saveDate', { image: dataUrl, imageName: imageName, user: user, bookingDate: new Date (bookingDate) })
+      if (response.status === 200) {
+        toast.success(response.data.message, { autoClose: 3000 });
+
+      }
+      console.log(response);
+    } catch (error) {
+
+    }
+
+  }
 
   const handleDrag = (index, e, ui) => {
     setPositions((prevPositions) => ({
@@ -126,48 +141,45 @@ const uploadImage= async(dataUrl,imageName)=>{
   };
 
   return (
-    
+
     <div >
-        <UserNavbar2/>
-<div className="container">
+      <UserNavbar2 />
+      <div className="container">
+        <div className="Pictures">
+          {PictureList.map((picture) => {
+            return <Picture url={picture.url} id={picture.id} />;
+          })}
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
 
 
+          <div className="Board" ref={drop} >
+            <img src={hall} width={'100%'} />
+            {
+              board.map((picture, index) => {
+                return <Draggable key={index} onDrag={(e, ui) => handleDrag(index, e, ui)}>
 
-      <div className="Pictures">
-        {PictureList.map((picture) => {
-          return <Picture url={picture.url} id={picture.id} />;
-        })}
-      </div>
+                  <div style={{ display: 'flex', position: 'absolute' }}>
 
-      <div style={{ display: 'flex',flexDirection:'row',alignItems:'center', justifyContent:'center' }}>
+                    <img src={picture.url} style={{ width: '50px', height: '50px', margin: '2px' }} />
+                    <div>
+                      <FaDeleteLeft onClick={() => DeleteImage(index)} size={24} color="black" />
+                    </div>
 
-
-        <div className="Board" ref={drop} >
-          <img src={hall} width={'100%'} />
-          {
-            board.map((picture, index) => {
-              return <Draggable key={index} onDrag={(e, ui) => handleDrag(index, e, ui)}>
-
-                <div style={{ display: 'flex', position: 'absolute' }}>
-
-                  <img src={picture.url} style={{ width: '50px', height: '50px', margin: '2px' }} />
-                  <div>
-                    <FaDeleteLeft onClick={() => DeleteImage(index)} size={24} color="black" />
                   </div>
+                </Draggable>
+              })}
+          </div>
 
-                </div>
-              </Draggable>
-            })}
+          <div style={{ width: '50%' }}>
+            <canvas ref={canvasRef} height={445.5} width={'584px'} className="ResultCanvas" />
+          </div>
         </div>
-
-        <div style={{ width: '50%' }}>
-          <canvas ref={canvasRef} height={445.5} width={'584px'} className="ResultCanvas" />
+        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <p onClick={downloadImage} className="downloadButton" >Download Design</p>
         </div>
       </div>
-      <div style={{ marginTop:'10px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center' }}>
-        <p onClick={downloadImage} className="downloadButton" >Download Design</p>
-      </div>
-    </div>
     </div>
   );
 }

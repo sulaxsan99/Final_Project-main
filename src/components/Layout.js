@@ -13,11 +13,13 @@ import Chair5 from './images/Chair5.jpeg';
 import Chair6 from './images/Chair6.jpeg';
 import './Layout.css';
 
+import { useLocation } from 'react-router-dom';
 
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  const location = useLocation();
+  const bookingDate = location.state && location.state.bookingDate;
   return (
     <div
       role="tabpanel"
