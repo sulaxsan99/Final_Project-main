@@ -9,7 +9,7 @@ const { decodeToken,
 const UserSchema = require('../models/User')
 const Booking = require('../models/Booking')
 const multer = require('multer'); // For handling file uploads
-const fs = require('fs');
+
 
 
 
@@ -148,6 +148,8 @@ router.get("/bookDate", async (req, res) => {
 //save date with hall design
 router.post("/saveDate", async (req, res) => {
   // console.log(req.body.image)
+  const io = req.io;
+
   try {
     const newBooking = new Booking({
       date: req.body.bookingDate,
@@ -157,6 +159,7 @@ router.post("/saveDate", async (req, res) => {
     });
 
     await newBooking.save();
+    io.emit('newBooking', { message: `${req.body.user} added hall design`});
     res.status(200).json({ message: 'Booking created with image successfully' });
   } catch (error) {
     console.error(error);
@@ -199,4 +202,6 @@ try {
 
 }
 })
+
+// router.get('/')
 module.exports = router;

@@ -5,9 +5,18 @@ const mongoose = require('mongoose');
 const security = require('./routes/security')
 const userRoute =require('./routes/User')
 const bodyParser = require('body-parser');
+const http = require('http');
+const socketIo = require('socket.io');
+
 
 const app  = express();
-app.use(cors())
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with your frontend URL
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+app.use(cors(corsOptions))
 app.use(bodyParser.json({limit:'50mb'}));
 
 require('dotenv').config()
@@ -17,12 +26,38 @@ app.use(express.json());
 
 
 
+const server = http.createServer(app);
+const io = socketIo(server,{
+    cors: {
+        origin: 'http://localhost:3000', // Replace with your frontend URL
+        methods: ['GET', 'POST'],
+      }
+});
+// server.use(cors())
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+  });
+  
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Listen for disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+
+
+
+
 app.use('/v1',userRoute)
 app.use('/v2', security)
 
 
 
-app.listen(process.env.PORT || 5001 , () => {
+server.listen(process.env.PORT || 5001 , () => {
     console.log(`Port listen in ${process.env.PORT}`);
 });
 

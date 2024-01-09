@@ -5,6 +5,8 @@ import axios from 'axios';
 import './Booking.css'; // Import your CSS file for the Bookings component
 import AdminNavbar from '../AdminNavbar'
 import './Popup'
+import { ToastContainer, toast } from 'react-toastify';
+
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState(null);
@@ -35,19 +37,26 @@ const Bookings = () => {
   };
 
 
-  // const DeleteBooking = async () => {
-  //   axios.delete('http://localhost:5001/v1/images',)
-  // }
+  const DeleteBooking = async (id) => {
+    axios.delete(`http://localhost:5001/v1/${id}`).then((response) => {
+      console.log(response)
+      toast.success(response.data.message, { autoClose: 3000 });
+      setBookings(prevBookings => prevBookings.filter(booking => booking._id !== id));
+
+    }).catch((error) => {
+      console.log(error)
+      toast.error(error.message)
+    })
+  }
 
   return (
     <div>
       <AdminNavbar />
       <div className="bookings-container">
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
                 {
                   selectedImage && (
                     <div className='ShowImage'>
@@ -56,11 +65,10 @@ const Bookings = () => {
                     </div>
                   )
                 }
-
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Approved </button>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary">Approved </button>
               </div>
             </div>
           </div>
@@ -80,7 +88,7 @@ const Bookings = () => {
                 title: 'Booked',
                 User: "knfkdjs",
                 date: new Date(booking.date).toISOString().split('T')[0],
-                extendedProps: { imageSrc: booking.image, userEmail: booking.user, id: booking.id }, // Store image source in extendedProps  
+                extendedProps: { imageSrc: booking.image, userEmail: booking.user, id: booking._id }, // Store image source in extendedProps  
               }))}
               eventContent={(eventInfo) => {
                 // Customize the event content
@@ -92,8 +100,10 @@ const Bookings = () => {
                     </button> */}
                     <div>Email: {eventInfo.event.extendedProps.userEmail}</div>
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleViewImage(eventInfo.event.extendedProps.imageSrc)} data-bs-whatever="@mdo">Open</button>
-                    {/* <button type="button" class="btn btn-danger" onClick={DeleteBooking} >Delete</button> */}
+                    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleViewImage(eventInfo.event.extendedProps.imageSrc)} data-bs-whatever="@mdo">Open</button>
+                    <button type="button" className="btn btn-danger" onClick={()=>{ DeleteBooking(eventInfo.event.extendedProps.id)}
+
+                   } >Delete</button>
 
                   </>
                 );

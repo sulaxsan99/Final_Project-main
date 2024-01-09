@@ -1,8 +1,7 @@
-// ** Janoja ** //
-
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import AdminNavbar from './AdminNavbar';
+import io from 'socket.io-client';
 
 
 const NotificationPage = () => {
@@ -23,7 +22,24 @@ const NotificationPage = () => {
         const updatedNotifications = notifications.filter((notification) => notification.id !== id);
         setNotifications(updatedNotifications);
     };
-
+    useEffect(() => {
+        // Connect to the Socket.IO server
+        const socket = io('http://localhost:5001',{
+            transports: ['websocket'],
+          }); // Replace with your server URL
+    
+        // Listen for the 'someEvent' emitted from the server
+        socket.on('newBooking', (data) => {
+          console.log('Received event from server:', data);
+          setNotifications(data)
+          // Handle the event data as needed
+        });
+    
+        // Clean up the socket connection when the component unmounts
+        return () => {
+        //   socket.disconnect();
+        };
+      }, [])
     return (
         <div>
             <div>
